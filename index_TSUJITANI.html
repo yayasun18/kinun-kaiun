@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>金運＆開運診断 | あなただけの開運メッセージ</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN', sans-serif;
+    background: linear-gradient(160deg, #fff5f7 0%, #fffaf5 50%, #f8f0ff 100%);
+    min-height: 100vh;
+    color: #2a1a3e;
+    overflow-x: hidden;
+    font-size: 17px;
+  }
+
+  /* 背景の淡い装飾 */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 15%, rgba(183,110,121,0.15), transparent),
+      radial-gradient(2px 2px at 60% 25%, rgba(201,149,108,0.12), transparent),
+      radial-gradient(2px 2px at 40% 60%, rgba(183,110,121,0.1), transparent),
+      radial-gradient(2px 2px at 80% 40%, rgba(201,149,108,0.12), transparent),
+      radial-gradient(2px 2px at 10% 70%, rgba(183,110,121,0.1), transparent),
+      radial-gradient(2px 2px at 90% 80%, rgba(201,149,108,0.15), transparent),
+      radial-gradient(2px 2px at 50% 90%, rgba(183,110,121,0.1), transparent),
+      radial-gradient(2px 2px at 75% 10%, rgba(201,149,108,0.12), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  /* ヒーロー */
+  .hero {
+    text-align: center;
+    padding: 56px 20px 36px;
+  }
+  .hero .tag {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(183,110,121,0.12), rgba(201,149,108,0.12));
+    border: 1.5px solid rgba(183,110,121,0.4);
+    border-radius: 50px;
+    padding: 8px 26px;
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #b76e79;
+    margin-bottom: 24px;
+    font-weight: bold;
+  }
+  .hero h1 {
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: bold;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #2a1a3e 20%, #b76e79 60%, #c9956c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 17px;
+    color: #5a3a5a;
+    line-height: 2.0;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 22px auto;
+    max-width: 300px;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9956c, transparent);
+  }
+  .divider span { color: #c9956c; font-size: 16px; }
+
+  /* フォームカード */
+  .form-card {
+    max-width: 480px;
+    margin: 0 auto 44px;
+    background: #fff;
+    border: 1.5px solid rgba(183,110,121,0.3);
+    border-radius: 24px;
+    padding: 40px 32px;
+    box-shadow: 0 8px 40px rgba(183,110,121,0.12);
+  }
+  .form-card h2 {
+    font-size: 20px;
+    background: linear-gradient(135deg, #b76e79, #c9956c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    font-weight: bold;
+  }
+  .field { margin-bottom: 22px; }
+  .field label {
+    display: block;
+    font-size: 15px;
+    color: #5a3a5a;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  .field input, .field select {
+    width: 100%;
+    background: #fdf8fa;
+    border: 1.5px solid #d4b4c8;
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: #2a1a3e;
+    font-size: 17px;
+    outline: none;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  .field input:focus, .field select:focus {
+    border-color: #b76e79;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(183,110,121,0.12);
+  }
+  .field select option { background: #fff; color: #2a1a3e; }
+
+  .btn-main {
+    width: 100%;
+    background: linear-gradient(135deg, #b76e79, #c9956c, #e8b4b8, #c9956c);
+    background-size: 200% 200%;
+    animation: shimmer 3s ease infinite;
+    color: #fff;
+    font-size: 19px;
+    font-weight: bold;
+    border: none;
+    border-radius: 50px;
+    padding: 22px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    margin-top: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 6px 28px rgba(183,110,121,0.45);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    font-family: inherit;
+  }
+  .btn-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(183,110,121,0.55);
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* 結果エリア */
+  #result { display: none; max-width: 520px; margin: 0 auto 60px; }
+
+  .result-header {
+    text-align: center;
+    padding: 30px 20px 24px;
+  }
+  .result-header .name {
+    font-size: 16px;
+    color: #7a5a7a;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  .result-header h2 {
+    font-size: 22px;
+    background: linear-gradient(135deg, #b76e79, #c9956c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+  }
+
+  /* スコアカード */
+  .score-card {
+    background: #fff;
+    border: 1.5px solid rgba(183,110,121,0.3);
+    border-radius: 24px;
+    padding: 34px;
+    margin: 0 16px 20px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(183,110,121,0.1);
+  }
+  .score-label { font-size: 14px; color: #7a5a7a; letter-spacing: 3px; margin-bottom: 14px; font-weight: bold; }
+  .score-num {
+    font-size: 78px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #b76e79, #c9956c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .score-unit { font-size: 16px; color: #7a5a7a; margin-top: 6px; }
+  .score-bar-wrap {
+    margin: 20px 0 10px;
+    background: #f0e8f0;
+    border-radius: 50px;
+    height: 12px;
+    overflow: hidden;
+  }
+  .score-bar {
+    height: 12px;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #b76e79, #c9956c, #e8b4b8);
+    transition: width 1.5s ease;
+  }
+  .score-comment { font-size: 16px; color: #3a2a3e; margin-top: 14px; line-height: 1.9; }
+
+  /* 結果ブロック */
+  .result-block {
+    background: #fff;
+    border: 1px solid #e8d8e8;
+    border-left: 5px solid #c9956c;
+    border-radius: 16px;
+    padding: 26px 28px;
+    margin: 0 16px 16px;
+    box-shadow: 0 4px 16px rgba(183,110,121,0.08);
+  }
+  .result-block .block-title {
+    font-size: 13px;
+    color: #c9956c;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+  .result-block .block-body {
+    font-size: 19px;
+    color: #2a1a3e;
+    line-height: 1.8;
+    font-weight: bold;
+  }
+  .result-block .block-sub {
+    font-size: 15px;
+    color: #5a3a5a;
+    line-height: 1.9;
+    margin-top: 10px;
+  }
+  .result-block.danger {
+    border-left-color: #b76e79;
+  }
+  .result-block.danger .block-title { color: #b76e79; }
+
+  /* ティーザー */
+  .teaser {
+    background: linear-gradient(160deg, #fff5f7, #fff9f5);
+    border: 2px dashed rgba(183,110,121,0.4);
+    border-radius: 24px;
+    padding: 34px 28px;
+    margin: 0 16px 20px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(183,110,121,0.08);
+  }
+  .teaser .teaser-icon { font-size: 34px; margin-bottom: 14px; }
+  .teaser h3 {
+    font-size: 19px;
+    color: #2a1a3e;
+    font-weight: bold;
+    margin-bottom: 14px;
+    line-height: 1.8;
+  }
+  .teaser p { font-size: 16px; color: #5a3a5a; line-height: 2.0; }
+  .teaser .blur-text {
+    filter: blur(5px);
+    color: #b76e79;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 16px 0;
+    user-select: none;
+  }
+
+  /* CTAボタン */
+  .cta-wrap {
+    margin: 0 16px 40px;
+    text-align: center;
+  }
+  .cta-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #b76e79, #c9956c);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 7px 22px;
+    border-radius: 50px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 14px rgba(183,110,121,0.35);
+  }
+  .btn-cta {
+    display: block;
+    background: linear-gradient(135deg, #b76e79, #c9956c, #e8b4b8, #c9956c);
+    background-size: 200% 200%;
+    animation: shimmer 3s ease infinite;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 24px;
+    letter-spacing: 1px;
+    box-shadow: 0 8px 32px rgba(183,110,121,0.45);
+    transition: transform 0.2s;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  }
+  .btn-cta:hover { transform: translateY(-3px); }
+  .cta-note { font-size: 14px; color: #7a5a7a; margin-top: 14px; }
+  .cta-note .off-label {
+    display: block;
+    color: #b76e79;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .retry-btn {
+    display: block;
+    text-align: center;
+    color: #9a6a8a;
+    font-size: 15px;
+    cursor: pointer;
+    margin: -20px auto 40px;
+    text-decoration: underline;
+  }
+
+  @media(max-width:480px){
+    .form-card { margin: 0 12px 40px; padding: 28px 20px; }
+    .result-block, .teaser, .cta-wrap { margin-left: 12px; margin-right: 12px; }
+    .score-card { margin: 0 12px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ヒーロー -->
+<div class="hero">
+  <div class="tag">✦ 無料診断 ✦</div>
+  <h1>あなたの金運＆開運を<br>生年月日で導き出す</h1>
+  <div class="divider"><span>✦</span></div>
+  <p>複数の運命学を組み合わせた総合鑑定<br>あなただけの開運メッセージをお届けします</p>
+</div>
+
+<!-- 入力フォーム -->
+<div class="form-card" id="formCard">
+  <h2>✦ 無料診断を受ける ✦</h2>
+  <div class="field">
+    <label>お名前（ニックネームOK）</label>
+    <input type="text" id="name" placeholder="例：hanako" maxlength="20">
+  </div>
+  <div class="field">
+    <label>生年月日</label>
+    <input type="date" id="birthdate" min="1940-01-01" max="2010-12-31">
+  </div>
+  <div class="field">
+    <label>性別</label>
+    <select id="gender">
+      <option value="">選択してください</option>
+      <option value="female">女性</option>
+      <option value="male">男性</option>
+      <option value="other">その他</option>
+    </select>
+  </div>
+  <button class="btn-main" onclick="diagnose()">✦ 今すぐ診断する ✦</button>
+</div>
+
+<!-- 結果エリア -->
+<div id="result">
+  <div class="result-header">
+    <div class="name" id="resultName"></div>
+    <h2>✦ あなたの金運＆開運鑑定結果 ✦</h2>
+    <div class="divider"><span>✦</span></div>
+  </div>
+
+  <div class="score-card">
+    <div class="score-label">2026年 金運スコア</div>
+    <div class="score-num" id="scoreNum">--</div>
+    <div class="score-unit">点 / 100点</div>
+    <div class="score-bar-wrap"><div class="score-bar" id="scoreBar" style="width:0%"></div></div>
+    <div class="score-comment" id="scoreComment"></div>
+  </div>
+
+  <div class="result-block">
+    <div class="block-title">▸ 2026年 開運テーマ</div>
+    <div class="block-body" id="theme"></div>
+    <div class="block-sub" id="themeSub"></div>
+  </div>
+
+  <div class="result-block">
+    <div class="block-title">▸ 転機が来る時期</div>
+    <div class="block-body" id="timing"></div>
+    <div class="block-sub">※ 詳しい時期と内容は個別鑑定でお伝えします</div>
+  </div>
+
+  <div class="result-block">
+    <div class="block-title">▸ 開運カラー ＆ ラッキーアイテム</div>
+    <div class="block-body" id="lucky"></div>
+    <div class="block-sub" id="luckySub"></div>
+  </div>
+
+  <div class="result-block danger">
+    <div class="block-title">▸ 今年の金運ブレーキ行動（要注意）</div>
+    <div class="block-body" id="ng"></div>
+    <div class="block-sub" id="ngSub"></div>
+  </div>
+
+  <div class="teaser">
+    <div class="teaser-icon">🔑</div>
+    <h3>実は、あなただけの<br>「開運の鍵」があります</h3>
+    <div class="blur-text" id="teaserBlur">あなたの開運の鍵は「〇〇〇〇」です</div>
+    <p>この鍵を知っている人と知らない人では、<br>1年後の状況が大きく変わります。<br><br>詳しくは個別鑑定でお伝えします。</p>
+  </div>
+
+  <div class="cta-wrap">
+    <div class="cta-badge">100名限定 ／ 特別価格</div>
+    <a class="btn-cta" href="https://krndcpvbjcwx1mawc6r4.stores.jp/items/6a170188600537947ec9a988" target="_blank">
+      ✦ 500円で個別鑑定を受ける ✦
+    </a>
+    <div class="cta-note"><span class="off-label">通常価格の90%OFF</span>オンライン開催 ／ 60分</div>
+  </div>
+
+  <span class="retry-btn" onclick="resetForm()">▸ もう一度診断する</span>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function lifeNumber(dateStr) {
+  return dateStr.replace(/-/g,'').split('').map(Number).reduce((a,b)=>a+b,0) % 9 || 9;
+}
+function getZodiac(month, day) {
+  const z = [[1,20,'水瓶座'],[2,19,'魚座'],[3,21,'牡羊座'],[4,20,'牡牛座'],[5,21,'双子座'],[6,21,'蟹座'],[7,23,'獅子座'],[8,23,'乙女座'],[9,23,'天秤座'],[10,23,'蠍座'],[11,22,'射手座'],[12,22,'山羊座']];
+  for(let [m,d,name] of z){ if(month < m || (month === m && day < d)) return name; }
+  return '山羊座';
+}
+function calcScore(ln, month, day) { return 60 + ((ln * 7 + month * 3 + day) % 33); }
+
+const DB = {
+  theme:[
+    ['準備してきたことが、ついに花開く年',
+     'これまで地道にコツコツと積み上げてきたことが、今年ついに目に見える形になってきます。焦らなくて大丈夫です。あなたがこれまで続けてきた努力や学びは、決して無駄にはなっていません。今年は「やっとここまで来た」と感じる瞬間が何度も訪れるでしょう。自分のペースを信じて、一歩一歩着実に進んでください。'],
+    ['新しいステージへの扉が、今まさに開いている年',
+     'これまでとはまったく違う世界へ踏み出すタイミングが来ています。慣れ親しんだ環境や考え方を少し手放して、新しい自分に出会いに行く勇気が今年の鍵です。「迷ったら動く」——これがあなたの2026年の合言葉です。動いた人だけが見える景色があります。まずは小さな一歩でいい。その一歩があなたの未来を大きく変えます。'],
+    ['人とのつながりが、金運と幸運を運んでくる年',
+     '今年のあなたの金運は「誰と出会い、誰と時間を共にするか」で大きく変わります。ご縁を大切にしてください。今年出会う人の中に、あなたの人生を変えるキーパーソンが必ずいます。孤独に動くより、信頼できる仲間と一緒に動く方が、何倍もの速さで豊かさに近づけます。紹介や口コミを大切に、人との縁を積極的に育ててください。'],
+    ['直感を信じて動いた人が、大きく勝つ年',
+     '2026年のあなたには、鋭い直感力が備わっています。頭で考えすぎると、この力が弱まります。「なんとなくいいな」「面白そう」と感じたことに、素直に動いてみてください。あなたの直感は今、これまでの人生で最も冴えている状態にあります。チャンスは「考えている間」にすり抜けていきます。感じたら動く。それがあなたの最強の開運行動です。'],
+    ['土台を固めた人が、来年に大きく飛躍する年',
+     '今年は派手な結果より、しっかりとした土台づくりが大切な時期です。学びを深め、人脈を広げ、自分の軸を整える。一見地味に見えるこの行動が、来年の大きな飛躍の種になります。焦って結果を求めるより、今年仕込んだものの質が、1年後・2年後の豊かさを決めます。丁寧に、着実に、前進してください。'],
+    ['チャレンジの数だけ、金運が引き寄せられる年',
+     '今年は「やったことがないこと」に挑戦した人のところに、金運が集まります。「まだ早い」「準備が足りない」——そう思ったときこそ、動くサインです。失敗を恐れる必要はありません。挑戦した経験すべてが、あなたの価値になります。新しい学び、新しい出会い、新しい行動。この3つを意識して、今年は積極的に動いてみてください。'],
+    ['内側の思考が変わると、外側の現実が変わる年',
+     '今年のあなたに最も必要なのは、行動より先に「思考のアップデート」です。古い常識、昔の自分の限界、周りの「普通」——これらに縛られている限り、新しい豊かさは入ってきません。新しい知識を取り入れ、新しい視点を持つ人たちと関わることで、あなたの思考は自然と書き換えられます。思考が変われば言葉が変わり、言葉が変われば行動が変わり、行動が変われば1年後の現実が別物になります。'],
+    ['豊かさを受け取る器が、今年満たされる年',
+     'あなたはすでに、豊かさを引き寄せるだけの力と準備が整っています。あとは「受け取る」行動を起こすだけです。謙虚さは大切ですが、「自分にはまだ早い」と遠慮しすぎると、せっかくのチャンスを手放してしまいます。今年はご縁や学びの機会が訪れたとき、素直に「はい」と言える自分でいてください。豊かさはあなたを待っています。'],
+    ['循環させるほど、金運が加速していく年',
+     '今年のあなたの金運のテーマは「循環」です。学んだことを誰かに伝える、受け取った恩を次の人へ渡す、得た豊かさを次の成長に投資する——この流れを意識して作ることで、あなたの周りにお金とご縁が集まり続けます。抱え込むより流す方が、豊かさは増えていきます。今年は「与えながら受け取る」を実践してください。']
+  ],
+  timing:[
+    '2026年8月〜9月が最大の転機です。この時期に訪れるご縁や話には、特に注目してください。準備をしておくほど、チャンスを大きく活かせます。',
+    '2026年11月〜12月、人生の大きな転換点が訪れます。年末に向けて流れが加速します。今から少しずつ準備を整えておくことで、その波に乗れます。',
+    '2026年5月〜6月に重要な決断を迫られる場面があります。その瞬間を逃さないよう、今から情報収集と学びを深めておいてください。',
+    '2026年7月頃、突然チャンスが舞い込んできます。「急すぎる」と感じるかもしれませんが、それが本物のサインです。迷わず動いてください。',
+    '2026年秋（10月〜11月）から金運が急上昇します。夏の間に種をまいておくことが大切です。今から動いている人が秋に結果を手にします。',
+    '2026年10月頃、あなたの人生を変えるキーパーソンとの出会いがあります。普段と違う場所に顔を出すことで、その出会いが引き寄せられます。',
+    '2026年夏至（6月下旬）前後に大きな動きがあります。この時期に決断したことが、下半期の流れを決めます。直感を信じて選択してください。',
+    '2026年下半期（7月以降）、想定外の形で収入や豊かさが発生します。それは今の学びや行動が実を結ぶ瞬間です。焦らず積み重ねてください。',
+    '2026年9月以降、これまでの努力が一気に花開く流れがきます。それまでの時間を無駄にせず、学びと準備に使ってください。'
+  ],
+  lucky:[
+    ['深緑・ゴールド', '天然石（マラカイト）・観葉植物・木のもの',
+     '自然のエネルギーがあなたの金運を活性化させます。週に一度は公園や自然の中を歩く時間を作ってください。深緑のアイテムを身につけることで、地に足のついた判断力が高まります。'],
+    ['ロイヤルブルー・シルバー', '水晶・流水のあるもの・鏡',
+     '流れを意識することがあなたの運気を上げます。水回りを清潔に保つと金運が安定します。水晶をデスクや玄関に置くと、良いエネルギーの流れが生まれます。ブルー系のアイテムを取り入れて、直感力を磨いてください。'],
+    ['テラコッタ・ベージュ・アイボリー', '陶器・土のもの・手作りのアイテム',
+     '地に足のついた行動があなたの開運につながります。焦らず、一つひとつ丁寧に積み上げていくことが大切です。温かみのある色やナチュラル素材のアイテムを日常に取り入れると、安心感と安定した運気がついてきます。'],
+    ['ホワイト・クリアゴールド', '新品のもの・整理整頓された空間・白いお花',
+     '環境を整えることがあなたの金運を高める最短ルートです。使わないものを手放し、空間をすっきりさせてください。新しいものを取り入れるほど、新しい運気も入ってきます。白いお花を飾ると、浄化のエネルギーが高まります。'],
+    ['バーガンディ・アンティークゴールド', 'アンティーク品・歴史ある場所・良書',
+     '過去の知恵や歴史から学ぶことがあなたの開運ヒントです。長く愛されてきたものに触れる時間を作ってください。本を読む習慣、歴史ある場所を訪れること、先人の教えを学ぶことが、あなたの運気と判断力を高めます。'],
+    ['サンフラワーイエロー・明るいオレンジ', '太陽光・笑顔・明るい場所',
+     '明るいエネルギーがあなたの金運を呼び込みます。朝の太陽を浴びる習慣をつけてください。笑顔でいる時間が長いほど、良いご縁と豊かさが集まってきます。黄色やオレンジのアイテムをポイントに取り入れると、積極性とチャンス運が高まります。'],
+    ['ディープパープル・シルバー', '宇宙・星・月モチーフのもの・アロマ',
+     '直感とつながる静かな時間があなたの運気を上げます。就寝前に瞑想や深呼吸をする習慣をつけてください。月のリズムに合わせた行動（新月に目標を立て、満月に感謝する）が、あなたの金運を自然に高めます。'],
+    ['ローズゴールド・コーラル・ピーチ', '花・美しいもの・お気に入りの香り',
+     '美しいものに囲まれた環境が豊かさを引き寄せます。お気に入りの花を飾る、好きな香りのアロマを焚く、美しいと感じるものを日常に増やしてください。自分を大切にする行動が、外からの豊かさを呼び込む磁石になります。'],
+    ['フォレストグリーン・アースカラー', '木・森・土・大地のもの',
+     '自然のリズムと合わせた生活があなたの開運の秘訣です。早起きして朝の空気を吸う、木に触れる、土に触れる機会を増やしてください。無理のない生活リズムを整えることで、体と運気が同時に安定します。']
+  ],
+  ng:[
+    ['学ぶことをやめること',
+     '知識を止めた瞬間、金運の流れも止まります。今年は特に「学び続ける人」に豊かさが集まる年です。新しいことを学ぶのに、年齢は関係ありません。1日15分でもいい。学びの習慣がある人とない人では、1年後に大きな差が生まれます。あなたには今、成長するための最高のタイミングが来ています。'],
+    ['変化の流れに乗らないこと',
+     '新しいことへの一歩を先延ばしにするほど、金運のチャンスは遠ざかります。「もう少し様子を見てから」という考えが、今年のあなたの最大のブレーキになります。変化は怖いものですが、変化した先にしか新しい豊かさはありません。今年訪れる変化のチャンスに、勇気を持って乗っていってください。'],
+    ['一人で抱え込むこと',
+     '今年のあなたには、仲間と一緒に動くことが開運の鍵になります。「迷惑をかけたくない」「自分でやらないと」という気持ちが、実は豊かさの流れをせき止めています。信頼できる人に頼る、仲間と学ぶ、チームで動く——これがあなたの金運を何倍にも加速させます。一人でできることには限界があります。'],
+    ['過去のやり方だけに縛られること',
+     '「昔からこうやってきた」「これが普通」という固定観念が、今年の金運の流れを止めています。時代は変わり、豊かさの形も変わっています。新しい方法、新しい考え方、新しい仕組みを学ぶ柔軟性を持ってください。アップデートする勇気が、あなたを次のステージへ連れて行きます。'],
+    ['準備ばかりで動かないこと',
+     '「もっと準備ができてから動こう」と待ち続けるほど、チャンスはすり抜けていきます。完璧な準備が整う日は永遠に来ません。6割できたら動く、それがあなたに今年最も必要な姿勢です。動きながら学ぶ方が、座って考えるより100倍速く成長できます。まず一歩、踏み出してください。'],
+    ['自分の可能性を疑うこと',
+     '「自分には無理かもしれない」「私には才能がない」——この思い込みが、今年の最大の金運ブレーキです。あなたには必ず、まだ発揮されていない可能性があります。その可能性を信じて動いた人だけが、大きな変化を手にできます。周りの成功者も、最初は「自分にできるかな」と思っていた人たちです。'],
+    ['古い思考パターンに縛られること',
+     '今年は思考のアップデートが金運を左右する年です。「お金は汚い」「稼ぐのは大変」「自分には関係ない」——このような思い込みを一つひとつ手放していくことが開運への道です。新しい視点を持つ人たちと交わり、学び続けることで、あなたの思考は自然と書き換えられます。思考が変われば、現実が変わります。'],
+    ['自己投資を後回しにすること',
+     '「お金が貯まったら学ぼう」「時間ができたら動こう」——この順番が逆です。先に学ぶから収入が増え、先に動くから時間が生まれます。自己投資を後回しにするほど、豊かさへの扉は遠くなります。今のあなたには豊かさを受け取る準備がすでに整っています。学びにお金と時間を使う決断が、今年最大の開運行動です。'],
+    ['与えることばかりで受け取らないこと',
+     '誰かのために頑張ることはとても大切です。でも、受け取ることを遠慮しすぎると、豊かさの循環が止まってしまいます。感謝を素直に受け取る、サポートを素直に受け入れる、豊かさが来たときに「ありがとう」と言える自分でいること。与えながら受け取る循環を作ることが、今年のあなたの金運を加速させます。']
+  ],
+  teaserHint:[
+    '"朝の最初の30分"の使い方にあります',
+    '"毎日使っている言葉のクセ"に隠されています',
+    '"人間関係の棚卸し"の中にあります',
+    '"お金との向き合い方"の変化にあります',
+    '"1日の時間の使い方"の中に眠っています',
+    '"感情のコントロール"の仕方にあります',
+    '"毎日過ごしている環境"の中にあります',
+    '"繰り返している行動パターン"に隠されています',
+    '"自己投資の決断のスピード"にあります'
+  ]
+};
+
+function diagnose() {
+  const name=document.getElementById('name').value.trim();
+  const birthdate=document.getElementById('birthdate').value;
+  const gender=document.getElementById('gender').value;
+  if(!name){alert('お名前を入力してください');return;}
+  if(!birthdate){alert('生年月日を入力してください');return;}
+  if(!gender){alert('性別を選択してください');return;}
+
+  const [y,m,d]=birthdate.split('-').map(Number);
+  const ln=lifeNumber(birthdate);
+  const idx=ln-1;
+  const score=calcScore(ln,m,d);
+  const zodiac=getZodiac(m,d);
+
+  document.getElementById('resultName').textContent=`${name}さん`;
+  document.getElementById('scoreNum').textContent=score;
+  setTimeout(()=>{document.getElementById('scoreBar').style.width=score+'%';},200);
+  const scoreMsg=score>=80?'今年は金運が強く出ています。積極的な行動が吉です。':score>=70?'安定した金運です。着実に動くことで成果が出やすい年です。':'今こそ学びと自己投資が金運を引き上げる最高のタイミングです。新しい知識を取り入れた人が来年大きく飛躍します。';
+  document.getElementById('scoreComment').textContent=scoreMsg;
+  document.getElementById('theme').textContent=`「${DB.theme[idx][0]}」`;
+  document.getElementById('themeSub').textContent=DB.theme[idx][1];
+  document.getElementById('timing').textContent=DB.timing[idx];
+  document.getElementById('lucky').textContent=`開運カラー：${DB.lucky[idx][0]}　／　${DB.lucky[idx][1]}`;
+  document.getElementById('luckySub').textContent=DB.lucky[idx][2];
+  document.getElementById('ng').textContent=`「${DB.ng[idx][0]}」`;
+  document.getElementById('ngSub').textContent=DB.ng[idx][1];
+  document.getElementById('teaserBlur').textContent=`あなたの開運の鍵は${DB.teaserHint[idx]}`;
+
+  document.getElementById('formCard').style.display='none';
+  document.getElementById('result').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetForm() {
+  document.getElementById('result').style.display='none';
+  document.getElementById('formCard').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
